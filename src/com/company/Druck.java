@@ -20,7 +20,9 @@ public class Druck implements Printable {
         g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
         double width = pageFormat.getImageableWidth();
 
-        writeLinesToGraphic("Hallo welt, Wie geht?s dir? Hattest du einen anstrengenden Tag ?");
+      g2d.drawString("Danke, Aroan <3 ",12,20);
+
+       // writeLinesToGraphic("Hallo welt, Wie geht?s dir?");
 
         return PAGE_EXISTS;
     }
