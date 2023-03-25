@@ -5,23 +5,20 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.OrientationRequested;
+import java.awt.*;
 import java.awt.print.*;
 
 public class Main {
-
-
-
-    public static void main(String[] args) {
-	// write your code here
-        PrintRequestAttributeSet aset;
+    private double bHeight = 1;
+    public Main() {
+        // write your code here
+        /*PrintRequestAttributeSet aset;
         PageFormat seitenvormat;
         Book buch=null;
-
-        PrinterJob drucker = PrinterJob.getPrinterJob();
          aset=new HashPrintRequestAttributeSet();
 
          //aset.add(MediaSizeName.ISO_A4);
-         aset.add(new MediaPrintableArea(30,20,5,10 ,MediaPrintableArea.MM));
+         aset.add(new MediaPrintableArea(10,10,5,10 ,MediaPrintableArea.MM));
         // aset.add(OrientationRequested.PORTRAIT);
 
          boolean ok = drucker.printDialog(aset);
@@ -31,7 +28,7 @@ public class Main {
 
              MediaPrintableArea mpa = (MediaPrintableArea) aset.get(MediaPrintableArea.class);
 
-             double mpax = (double) (mpa.getX(MediaPrintableArea.INCH) * 72);
+             double mpax = (double) (mpa.getX(MediaPrintableArea.INCH)*72);
              double mpay = (double) (mpa.getY(MediaPrintableArea.INCH) * 72);
              double mpawidth = (double) (mpa.getWidth(MediaPrintableArea.INCH) * 72);
              double mpaheight = (double) (mpa.getHeight(MediaPrintableArea.INCH) * 72);
@@ -58,19 +55,52 @@ public class Main {
         System.out.println("bild breite"+seitenvormat.getImageableWidth());
         System.out.println("bild höhe"+  seitenvormat.getImageableHeight());
 
-       // drucker.setPrintable(new Druck());
+       //
+      */
 
 
+        bHeight = 1;//Double.valueOf(itemName.size());
+        PrinterJob drucker = PrinterJob.getPrinterJob();
+
+        drucker.setPrintable(new Druck(), getPageFormat(drucker));
         try {
-
             drucker.print();
         } catch (PrinterException e) {
             e.printStackTrace();
         }
+    }
 
+    public PageFormat getPageFormat(PrinterJob pj)
+    {
 
+        PageFormat pf = pj.defaultPage();
+        Paper paper = pf.getPaper();
+
+        double bodyHeight = bHeight;
+        double headerHeight = 5.0;
+        double footerHeight = 5.0;
+        double width = cm_to_pp(8);
+        double height = cm_to_pp(headerHeight+bodyHeight+footerHeight);
+        paper.setSize(width, height);
+        paper.setImageableArea(0,10,width,height - cm_to_pp(1));
+
+        pf.setOrientation(PageFormat.PORTRAIT);
+        pf.setPaper(paper);
+
+        return pf;
     }
 
 
+    protected static double cm_to_pp(double cm)
+    {
+        return toPPI(cm * 0.393600787);
+    }
+    protected static double toPPI(double inch)
+    {
+        return inch * 72d;
     }
 
+    public static void main(String[] args) {
+        new Main();
+    }
+}
