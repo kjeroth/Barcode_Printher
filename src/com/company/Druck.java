@@ -19,19 +19,19 @@ public class Druck implements Printable {
         }
         g2d = (Graphics2D) graphics;
         // gute Fonts:  "Courier New"  "monospaced" "MS Gothic" "Trebuchet MS" "MS PGothic" "MS PMincho"
-        g2d.setFont(new Font("monospaced", Font.PLAIN, 11));
+        g2d.setFont(new Font("MS Gothic", Font.PLAIN, 10));
         g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
         double width = pageFormat.getImageableWidth();
 
       //g2d.drawString("Danke, Aroan <3 ",12,20);
-
-       String textZumDrucken =  "Hallo welt, Wie geht es dir? Dies ist eine neue Zeile :3 und wir Testen die Kontinuität der einzelnen Wörter  \n yeeeey !!! \n A23456789 B23456789 C23456789 D234567890   ";
+       // Test String :  "Hallo welt, Wie geht es dir? Dies ist eine neue Zeile :3 und wir Testen die Kontinuität der einzelnen Wörter  \n yeeeey !!! \n A23456789 B23456789 C23456789 D234567890   "
+       String textZumDrucken = "Bitte sehr Dies ist jetzt die Gewählte Schriftart für alle Ausdrucke      " ;
        writeLinesToGraphic(textZumDrucken);
 
         return PAGE_EXISTS;
     }
     public void writeLinesToGraphic (String s) {
-        int lengthOfLine = 26; //Hier kann eingestellt werden, wie viele Zeichen pro Zeile erlaubt sind.
+        int lengthOfLine = 40; //Hier kann eingestellt werden, wie viele Zeichen pro Zeile erlaubt sind.
 
 
         while(s.length()>0) {
