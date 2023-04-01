@@ -6,7 +6,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 
 public class Druck implements Printable {
-    Graphics2D g2d;
+    private Graphics2D g2d;
+    private int y = 20;
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
@@ -17,19 +18,57 @@ public class Druck implements Printable {
 
         }
         g2d = (Graphics2D) graphics;
+        // gute Fonts:  "Courier New"  "monospaced" "MS Gothic" "Trebuchet MS" "MS PGothic" "MS PMincho"
+        g2d.setFont(new Font("monospaced", Font.PLAIN, 11));
         g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
         double width = pageFormat.getImageableWidth();
 
-      g2d.drawString("Danke, Aroan <3 ",12,20);
+      //g2d.drawString("Danke, Aroan <3 ",12,20);
 
-       // writeLinesToGraphic("Hallo welt, Wie geht?s dir?");
+       String textZumDrucken =  "Hallo welt, Wie geht es dir? Dies ist eine neue Zeile :3 und wir Testen die Kontinuität der einzelnen Wörter  \n yeeeey !!! \n A23456789 B23456789 C23456789 D234567890   ";
+       writeLinesToGraphic(textZumDrucken);
 
         return PAGE_EXISTS;
     }
     public void writeLinesToGraphic (String s) {
-        //Mache Schleife > suche Punkt zum Schneiden > Punkt zum Schneiden = nach x Buchstaben oder bei \n
-        //Wenn schneide Punkt gefunden. Schneide den Teil aus dem String s aus > speichern und drawString()
-        // ...mit der Line
-        //g2d.drawString(s //Hier den ausgeschnoitten Teil (Die line), 12, 20);
+        int lengthOfLine = 26; //Hier kann eingestellt werden, wie viele Zeichen pro Zeile erlaubt sind.
+
+
+        while(s.length()>0) {
+            //Guard-clause
+            if(s.length()<lengthOfLine) {
+                g2d.drawString(s,12, erhoeheY());
+                return;
+            }
+
+            String line = "";
+
+            //Schleife sucht Position zum schneiden von s
+            int indexLastSpace = -1;
+            int i=0;
+            while(i<lengthOfLine && s.charAt(i)!='\n') {
+                if( s.charAt(i) == ' ') indexLastSpace = i;
+                i++;
+            }
+            i++;
+            //finde Ende letztes Wort: //Notiz: Evtl ein Zeichen zu viel pro Zeile :think
+            if(indexLastSpace>=0 && s.charAt(i-1) !='\n' && s.charAt(i)!=' ') {
+                i=indexLastSpace+1;
+            }
+
+            //Schneide Teil aus s aus und füge als Line in g2d
+            line = s.substring(0,i);
+            s = s.substring(i);
+
+            //print line:
+            g2d.drawString(line,12, erhoeheY());
+        }
+        //2 Leere Zeilen am Ende:
+        g2d.drawString(" ",12,erhoeheY());
+        g2d.drawString(" ",12,erhoeheY());
+    }
+    private int erhoeheY () {
+        y=y+15;
+        return y;
     }
 }
